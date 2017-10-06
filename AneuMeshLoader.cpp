@@ -7,7 +7,7 @@
 #include <fstream>
 #include <iostream>
 
-std::ifstream AneuMeshLoader::LoadMesh(const std::string& filename) {
+std::ifstream& AneuMeshLoader::LoadMesh(const std::string& filename) {
     std::ifstream file(filename);
     if (!file) {
         std::cerr << "Cannot open file: \"" << filename << "\"!" << std::endl;

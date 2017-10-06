@@ -10,7 +10,7 @@
 
 class MeshLoader {
 public:
-    virtual std::ifstream LoadMesh(const std::string& filename) = 0;
+    virtual std::ifstream& LoadMesh(const std::string& filename) = 0;
 };
 
 

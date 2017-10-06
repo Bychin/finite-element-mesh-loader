@@ -9,6 +9,7 @@
 #include <string>
 #include <fstream>
 
+// методы, реализующие отформатированный вывод Node, Element и Surface в консоль ???????
 
 std::string FILEPATH = "./a-neu-files/ellipsoid.aneu";
 
@@ -17,7 +18,7 @@ void File_Format_Checker(std::string& file) { // delete all whitespaces and chec
         file.pop_back();
     std::size_t found = file.rfind("aneu");
     if (found != std::string::npos)
-        if (file.length() - found != 4)
+        if (file.length() - found != 4) // correct?
             std::cout << "Warning! Look's like you've entered bad filepath in commandline." << std::endl; // try-except ???
         else std::cout << "File-format-checker was passed." << std::endl;
     else std::cout << "Warning! Unknown file format may cause undefined behavior!" << std::endl;
@@ -35,10 +36,14 @@ int main(int argc, char* argv[]) {
     };
     File_Format_Checker(filepath);
 
-
     MeshLoader* loader = nullptr;
+    dynamic_cast<AneuMeshLoader*>(loader);
+    loader = new AneuMeshLoader;
+
+    std::ifstream& mesh_file = loader->LoadMesh(filepath);
 
 
-
+    std::cout << "Closing file...\nGoodbye!" << std::endl;
+    mesh_file.close();
     return 0;
 }
