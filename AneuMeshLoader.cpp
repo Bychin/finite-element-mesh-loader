@@ -2,7 +2,4 @@
 // Created by Bychin on 06.10.2017.
 //
 
-int main() {
-
-    return 0;
-}
+#include "AneuMeshLoader.h"

@@ -11,7 +11,7 @@
 
 class Node {
     int ID;
-    int x, y ,z;
+    double x, y ,z;
     bool vertex;
 };
 
