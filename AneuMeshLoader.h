@@ -6,10 +6,15 @@
 #define LABORATORY_WORK_1_2_ANEUMESHLOADER_H
 
 
+#include <fstream>
+
 #include "MeshLoader.h"
 
 class AneuMeshLoader : MeshLoader {
-    void LoadMesh() override;
+public:
+    std::ifstream LoadMesh(const std::string& filename) override;
+
+
 
 };
 

@@ -6,8 +6,11 @@
 #define LABORATORY_WORK_1_2_MESHLOADER_H
 
 
+#include <fstream>
+
 class MeshLoader {
-    virtual void LoadMesh() = 0;
+public:
+    virtual std::ifstream LoadMesh(const std::string& filename) = 0;
 };
 
 
