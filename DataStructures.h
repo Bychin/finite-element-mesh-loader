@@ -24,7 +24,8 @@ class Element {
 class Surface {
     int ID;
     int element_ID;
-
+    int surface_ID;
+    std::list<int> nodes_ID;
 };
 
 
