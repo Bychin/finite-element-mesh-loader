@@ -7,14 +7,14 @@
 #include <vector>
 
 
-std::vector<Node> MeshLoader::Get_Nodes() {
+std::vector<Node>& MeshLoader::Get_Nodes() {
     return nodes;
 }
 
-std::vector<Element> MeshLoader::Get_Elements() {
+std::vector<Element>& MeshLoader::Get_Elements() {
     return elements;
 }
 
-std::vector<Surface> MeshLoader::Get_Surfaces() {
+std::vector<Surface>& MeshLoader::Get_Surfaces() {
     return surfaces;
 }

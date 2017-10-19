@@ -20,9 +20,9 @@ public:
     virtual void LoadMesh(const std::string& filename) = 0;
 
     // методы, позволяющие получить STL-контейнеры узлов, конечных элементов и поверхностных элементов
-    std::vector<Node> Get_Nodes();
-    std::vector<Element> Get_Elements();
-    std::vector<Surface> Get_Surfaces();
+    std::vector<Node>& Get_Nodes();
+    std::vector<Element>& Get_Elements();
+    std::vector<Surface>& Get_Surfaces();
 
     // метод, позволяющий найти КЭ по ID трех его вершинных узлов
     std::vector<Element> Get_Elements_by_ID(int id1, int id2, int id3); // stream??

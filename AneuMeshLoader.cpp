@@ -22,6 +22,7 @@ void AneuMeshLoader::LoadMesh(const std::string& filename) {
         exit(EXIT_FAILURE); // try-except?
     } else std::cout << "File \"" << filename << "\" was opened successfully." << std::endl;
 
+
     // Get_Nodes
     // Get_Surf
     // etc
