@@ -16,14 +16,44 @@ void AneuMeshLoader::LoadMesh(const std::string& filename) {
         else std::cout << "File-format-checker was passed." << std::endl;
     else std::cout << "Warning! Unknown file format may cause undefined behavior!" << std::endl; // try-except ???
 
-    std::ifstream file(filename);
-    if (!file) {
+    std::ifstream fin(filename);
+    if (!fin) {
         std::cerr << "Cannot open file: \"" << filename << "\"!" << std::endl;
         exit(EXIT_FAILURE); // try-except?
     } else std::cout << "File \"" << filename << "\" was opened successfully." << std::endl;
 
+    int amount, dimension;
+    fin >> amount >> dimension;
+    nodes.reserve(amount);
+    for (int i = 1; i <= amount; ++i) {
+        Node temp_node;
+        temp_node.ID = i;
+        fin >> temp_node.x >> temp_node.y >> temp_node.z;
+        temp_node.vertex = true;
+        nodes.push_back(temp_node);
+    }
 
-    // Get_Nodes
-    // Get_Surf
-    // etc
+    fin >> amount >> dimension;
+    elements.reserve(amount);
+    for (int i = 1; i <= amount; ++i) {
+        Element temp_element;
+        temp_element.nodes_ID.reserve(dimension);
+        temp_element.element_ID = i;
+        fin >> temp_element.material_ID;
+        for (int j = 0; j < dimension; ++j)
+            fin >> temp_element.nodes_ID.at(j);
+        elements.push_back(std::move(temp_element));
+    }
+
+    fin >> amount >> dimension;
+    surfaces.reserve(amount);
+    for (int i = 1; i <= amount; ++i) {
+        Surface temp_surface;
+        temp_surface.surface_ID = i;
+        fin >> temp_surface.type_ID;
+        temp_surface.nodes_ID.reserve(dimension);
+        for (int j = 0; j < dimension; ++j)
+            fin >> temp_surface.nodes_ID.at(j);
+        surfaces.push_back(std::move(temp_surface));
+    }
 }

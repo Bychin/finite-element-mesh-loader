@@ -9,23 +9,27 @@
 #include <list>
 
 
-class Node {
+struct Node {
     int ID;
     double x, y ,z;
     bool vertex;
+
+    Node() = default;
 };
 
-class Element {
-    int ID;
-    int material_ID;
-    std::list<int> nodes_ID;
-};
-
-class Surface {
-    int ID;
+struct Element {
     int element_ID;
+    int material_ID;
+    std::vector<int> nodes_ID;
+
+    Element() = default;
+};
+
+struct Surface : public Element {
     int surface_ID;
-    std::list<int> nodes_ID;
+    int type_ID;
+
+    Surface() = default;
 };
 
 
