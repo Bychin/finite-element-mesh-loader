@@ -6,9 +6,6 @@
 #define LABORATORY_WORK_1_2_ANEUMESHLOADER_H
 
 
-#include <fstream>
-#include <vector>
-
 #include "MeshLoader.h"
 #include "DataStructures.h"
 

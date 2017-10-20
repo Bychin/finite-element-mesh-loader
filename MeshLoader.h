@@ -42,6 +42,9 @@ public:
     // метод, создающий контейнер, n-ый элемент которого хранит контейнер всех «соседей» для узла n
     std::vector<std::vector<Node>> Get_Nodes_Neighbors();
     Node Get_Node_by_ID(int);
+
+private:
+    int Get_Last_Nodes_ID();
 };
 
 

@@ -47,6 +47,11 @@ std::ostream& operator<<(std::ostream& out_stream, const std::vector<Node>& node
     return out_stream;
 }
 
+Node::Node(int ID_, double x_, double y_, double z_, bool vertex_) :
+    ID(ID_), x(x_), y(y_), z(z_), vertex(vertex_) {}
+
+
+
 std::ostream& operator<<(std::ostream& out_stream, const std::vector<Element>& elements_) {
     int elements_size = elements_.size();
     out_stream << elements_size << (elements_size > 1 ? " Elements:\n" : " Element:\n")

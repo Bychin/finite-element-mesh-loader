@@ -4,11 +4,9 @@
 
 #include "MeshLoader.h"
 
-#include <vector>
-#include <iostream>
 #include <iomanip>
 #include <algorithm>
-#include <set>
+#include <map>
 
 
 std::vector<Node>& MeshLoader::Get_Nodes() {
@@ -138,5 +136,55 @@ Node MeshLoader::Get_Node_by_ID(int n_id) {
 }
 
 void MeshLoader::Transform_Elements_to_Quadratic() {
+    std::map<std::pair<int, int>, int> pair_to_node_ID; // key - 2 node's ID (real edge),
+                                                        // value - node's ID which is between them
+    for (auto& it : elements) {
+        std::vector<int> current_nodes(it.nodes_ID);
+        std::sort(current_nodes.begin(), current_nodes.end());
 
+        // i && j get all combinations of (x, y) in (x, y, z...)
+        for (auto i = current_nodes.begin(); i < current_nodes.end() - 1; ++i)
+            for (auto j = i + 1; j < current_nodes.end(); ++j) {
+                std::pair<int, int> temp_pair(*i, *j);
+                if (pair_to_node_ID.find(temp_pair) == pair_to_node_ID.end()) {
+                    // if there was not same pair before, make new center-Node for this edge...
+                    Node left_node = Get_Node_by_ID(*i);
+                    Node right_node = Get_Node_by_ID(*j);
+                    int center_id = Get_Last_Nodes_ID() + 1;
+                    Node center_node(center_id, (left_node.x + right_node.x) / 2,
+                           (left_node.y + right_node.y) / 2, (left_node.z + right_node.z) / 2, false);
+
+                    nodes.push_back(center_node);
+                    pair_to_node_ID.insert({temp_pair, center_id});
+
+                    // ...and push_back new ID to current elements.nodes_ID
+                    it.nodes_ID.push_back(center_id);
+                } else {
+                    // if there was same pair before, get it's center node's ID
+                    int center_id = pair_to_node_ID.at(temp_pair);
+                    it.nodes_ID.push_back(center_id);
+                }
+            }
+        it.nodes_ID.shrink_to_fit();
+    }
+    // update Surface.nodes_ID because of new Nodes
+    for (auto& it : surfaces) {
+        std::vector<int> current_nodes(it.nodes_ID);
+        std::sort(current_nodes.begin(), current_nodes.end());
+        for (auto i = current_nodes.begin(); i < current_nodes.end() - 1; ++i)
+            for (auto j = i + 1; j < current_nodes.end(); ++j) {
+                std::pair<int, int> temp_pair(*i, *j);
+                if (pair_to_node_ID.find(temp_pair) != pair_to_node_ID.end()) {
+                    int center_id = pair_to_node_ID.at(temp_pair);
+                    it.nodes_ID.push_back(center_id);
+                }
+            }
+        it.nodes_ID.shrink_to_fit();
+    }
+    surfaces.shrink_to_fit();
+    nodes.shrink_to_fit();
+}
+
+int MeshLoader::Get_Last_Nodes_ID() {
+    return nodes.rbegin()->ID;
 }

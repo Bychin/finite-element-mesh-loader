@@ -8,8 +8,6 @@
 #include <iostream>
 
 void AneuMeshLoader::LoadMesh(const std::string& filename) {
-
-
     std::ifstream fin(filename);
     if (!fin) {
         std::cerr << "Cannot open file: \"" << filename << "\"!" << std::endl;
@@ -55,6 +53,11 @@ void AneuMeshLoader::LoadMesh(const std::string& filename) {
             fin >> temp_id;
             temp_surface.nodes_ID.push_back(temp_id);
         }
+        std::vector<Element> temp_elements = Get_Elements_by_ID(temp_surface.nodes_ID[0],
+                                                                temp_surface.nodes_ID[1],
+                                                                temp_surface.nodes_ID[2]);
+        temp_surface.element_ID = temp_elements[0].element_ID;
+        temp_surface.material_ID = temp_elements[0].material_ID;
         surfaces.push_back(std::move(temp_surface));
     }
 

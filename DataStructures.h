@@ -14,6 +14,9 @@ struct Node {
     double x, y ,z;
     bool vertex;
 
+    Node() = default;
+    Node(int, double, double, double, bool);
+
     bool operator==(const Node&) const;
     friend std::ostream& operator<<(std::ostream&, const Node&);
     friend std::ostream& operator<<(std::ostream&, const std::vector<Node>&);

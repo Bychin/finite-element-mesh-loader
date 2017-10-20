@@ -3,6 +3,7 @@
 //
 
 #include "MeshLoader.h"
+#include "NeuMeshLoader.h"
 #include "AneuMeshLoader.h"
 
 #include <iostream>
@@ -10,7 +11,7 @@
 #include <fstream>
 
 
-std::string FILEPATH = R"(C:\Users\Bychin\Documents\_Projects\ClionProjects\laboratory_work_1_2\a-neu-files\cube.aneu)";
+std::string FILEPATH = R"(C:\Users\Bychin\Documents\_Projects\ClionProjects\laboratory_work_1_2\a-neu-files\cube.neu)";
 //std::string FILEPATH = "./a-neu-files/cube.aneu";
 
 MeshLoader* File_Format_Checker(std::string& file) { // deletes all whitespaces, checks correct format
@@ -18,24 +19,25 @@ MeshLoader* File_Format_Checker(std::string& file) { // deletes all whitespaces,
         file.pop_back();
     MeshLoader* mesh_pointer = nullptr;
 
-    // check ANEU
+    // check .aneu
     std::size_t found = file.rfind(".aneu");
-    if (found != std::string::npos)
-        if (file.length() - found == 5) {
-            std::cout << "File-format-checker was passed." << std::endl;
-            dynamic_cast<AneuMeshLoader*>(mesh_pointer);
-            mesh_pointer = new AneuMeshLoader;
-            return mesh_pointer;
-        }
-        else {
-            std::cout << "Warning! Look's like you've entered bad filepath in commandline." << std::endl;
-            return nullptr;
-        } // try-except ???
+    if (found != std::string::npos && file.length() - found == 5) {
+        std::cout << "File-format-checker was passed." << std::endl;
+        dynamic_cast<AneuMeshLoader*>(mesh_pointer);
+        mesh_pointer = new AneuMeshLoader;
+        return mesh_pointer;
+    }
 
-    // more checks for .neu, etc
-    // ...
+    // check .neu
+    found = file.rfind(".neu");
+    if (found != std::string::npos && file.length() - found == 4) {
+        std::cout << "File-format-checker was passed." << std::endl;
+        dynamic_cast<NeuMeshLoader*>(mesh_pointer);
+        mesh_pointer = new NeuMeshLoader;
+        return mesh_pointer;
+    }
 
-    else std::cout << "Warning! Unknown file format may cause undefined behavior!" << std::endl; // try-except ???
+    else std::cout << "Warning! File-format-checker was not passed!" << std::endl;
     return nullptr;
 }
 
@@ -52,7 +54,7 @@ int main(int argc, char* argv[]) {
 
     MeshLoader* loader = File_Format_Checker(filepath);
     if (loader == nullptr) {
-        std::cout << "Exiting!\n";
+        std::cout << "Exiting!\n"; // EXCEPTION
         return 1;
     };
 
@@ -93,6 +95,10 @@ int main(int argc, char* argv[]) {
     for (int i = 1; i < neighbors.size(); ++i)
         std::cout << "Neighbors for Node with ID = " << i << "\n" << neighbors[i];
     neighbors.clear();
+
+    std::cout << "\nResult of Transform_Elements_to_Quadratic() function:\n";
+    loader->Transform_Elements_to_Quadratic();
+    loader->Print_Data();
 
     return 0;
 }
