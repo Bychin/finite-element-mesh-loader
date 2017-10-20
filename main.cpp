@@ -9,19 +9,32 @@
 #include <string>
 #include <fstream>
 
-// методы, реализующие отформатированный вывод Node, Element и Surface в консоль ???????
 
-std::string FILEPATH = "./a-neu-files/ellipsoid.aneu";
+std::string FILEPATH = R"(C:\Users\Bychin\Documents\_Projects\ClionProjects\laboratory_work_1_2\a-neu-files\cube.aneu)";
+//std::string FILEPATH = "./a-neu-files/cube.aneu";
 
-void File_Format_Checker(std::string& file) { // delete all whitespaces and check correct .aneu format
+MeshLoader* File_Format_Checker(std::string& file) { // deletes all whitespaces, checks correct format and call suitable loader
     while (file.back() == ' ')
         file.pop_back();
-    std::size_t found = file.rfind("aneu");
+    MeshLoader* mesh_pointer = nullptr;
+    // check ANEU
+    std::size_t found = file.rfind(".aneu");
     if (found != std::string::npos)
-        if (file.length() - found != 4) // correct?
-            std::cout << "Warning! Look's like you've entered bad filepath in commandline." << std::endl; // try-except ???
-        else std::cout << "File-format-checker was passed." << std::endl;
-    else std::cout << "Warning! Unknown file format may cause undefined behavior!" << std::endl;
+        if (file.length() - found == 5) {
+            std::cout << "File-format-checker was passed." << std::endl;
+            dynamic_cast<AneuMeshLoader*>(mesh_pointer);
+            mesh_pointer = new AneuMeshLoader;
+            return mesh_pointer;
+        }
+        else {
+            std::cout << "Warning! Look's like you've entered bad filepath in commandline." << std::endl;
+            return nullptr;
+        } // try-except ???
+
+    // more else - if blocks for .neu, etc
+
+    else std::cout << "Warning! Unknown file format may cause undefined behavior!" << std::endl; // try-except ???
+    return nullptr;
 }
 
 int main(int argc, char* argv[]) {
@@ -32,18 +45,21 @@ int main(int argc, char* argv[]) {
         std::cout << "There must be one or none arguments! Set file path to default..." << std::endl;
     else {
         std::cout << "Set file path to \"" << argv[1] << "\"..." << std::endl;
-        filepath = argv[1];
+        filepath = argv[1]; // toLower?
     };
-    File_Format_Checker(filepath);
 
-    MeshLoader* loader = nullptr;
-    dynamic_cast<AneuMeshLoader*>(loader);
-    loader = new AneuMeshLoader;
+    MeshLoader* loader = File_Format_Checker(filepath);
 
-    std::ifstream& mesh_file = loader->LoadMesh(filepath);
+    if (loader == nullptr) {
+        std::cout << "Exiting!\n";
+        return 1;
+    };
+
+    loader->LoadMesh(filepath);
+    loader->Print_Data();
 
 
-    std::cout << "Closing file...\nGoodbye!" << std::endl;
-    mesh_file.close();
+
+
     return 0;
 }

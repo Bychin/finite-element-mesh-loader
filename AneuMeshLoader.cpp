@@ -8,13 +8,7 @@
 #include <iostream>
 
 void AneuMeshLoader::LoadMesh(const std::string& filename) {
-    // check ANEU
-    std::size_t found = filename.rfind("aneu");
-    if (found != std::string::npos)
-        if (filename.length() - found != 4) // correct?
-            std::cout << "Warning! Look's like you've entered bad filepath in commandline." << std::endl; // try-except ???
-        else std::cout << "File-format-checker was passed." << std::endl;
-    else std::cout << "Warning! Unknown file format may cause undefined behavior!" << std::endl; // try-except ???
+
 
     std::ifstream fin(filename);
     if (!fin) {
@@ -23,6 +17,7 @@ void AneuMeshLoader::LoadMesh(const std::string& filename) {
     } else std::cout << "File \"" << filename << "\" was opened successfully." << std::endl;
 
     int amount, dimension;
+
     fin >> amount >> dimension;
     nodes.reserve(amount);
     for (int i = 1; i <= amount; ++i) {
@@ -37,11 +32,14 @@ void AneuMeshLoader::LoadMesh(const std::string& filename) {
     elements.reserve(amount);
     for (int i = 1; i <= amount; ++i) {
         Element temp_element;
-        temp_element.nodes_ID.reserve(dimension);
         temp_element.element_ID = i;
         fin >> temp_element.material_ID;
-        for (int j = 0; j < dimension; ++j)
-            fin >> temp_element.nodes_ID.at(j);
+        temp_element.nodes_ID.reserve(dimension);
+        int temp_id;
+        for (int j = 0; j < dimension; ++j) {
+            fin >> temp_id;
+            temp_element.nodes_ID.push_back(temp_id);
+        }
         elements.push_back(std::move(temp_element));
     }
 
@@ -50,10 +48,16 @@ void AneuMeshLoader::LoadMesh(const std::string& filename) {
     for (int i = 1; i <= amount; ++i) {
         Surface temp_surface;
         temp_surface.surface_ID = i;
-        fin >> temp_surface.type_ID;
+        fin >> temp_surface.border_ID;
         temp_surface.nodes_ID.reserve(dimension);
-        for (int j = 0; j < dimension; ++j)
-            fin >> temp_surface.nodes_ID.at(j);
+        int temp_id;
+        for (int j = 0; j < dimension; ++j) {
+            fin >> temp_id;
+            temp_surface.nodes_ID.push_back(temp_id);
+        }
         surfaces.push_back(std::move(temp_surface));
     }
+
+    fin.close();
+    std::cout << "All data was loaded, closing the file..." << std::endl;
 }
