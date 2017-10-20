@@ -14,8 +14,7 @@
 
 class AneuMeshLoader : public MeshLoader {
 public:
-    void LoadMesh(const std::string& filename) override;
-
+    void LoadMesh(const std::string&) override;
 };
 
 

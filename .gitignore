@@ -31,6 +31,6 @@
 *.out
 *.app
 
-/cmake*
+/cmake-build-debug
 /.idea*
 /geo-files1*

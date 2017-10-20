@@ -6,15 +6,17 @@
 #define LABORATORY_WORK_1_2_DATASTRUCTURES_H
 
 
-#include <list>
-
+#include <iostream>
+#include <vector>
 
 struct Node {
     int ID;
     double x, y ,z;
     bool vertex;
 
-    Node() = default;
+    bool operator==(const Node&) const;
+    friend std::ostream& operator<<(std::ostream&, const Node&);
+    friend std::ostream& operator<<(std::ostream&, const std::vector<Node>&);
 };
 
 struct Element {
@@ -22,14 +24,16 @@ struct Element {
     int material_ID;
     std::vector<int> nodes_ID;
 
-    Element() = default;
+    friend std::ostream& operator<<(std::ostream&, const Element&);
+    friend std::ostream& operator<<(std::ostream&, const std::vector<Element>&);
 };
 
 struct Surface : public Element {
     int surface_ID;
     int border_ID;
 
-    Surface() = default;
+    friend std::ostream& operator<<(std::ostream&, const Surface&);
+    friend std::ostream& operator<<(std::ostream&, const std::vector<Surface>&);
 };
 
 

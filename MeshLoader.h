@@ -17,7 +17,7 @@ protected:
     std::vector<Element> elements;
     std::vector<Surface> surfaces;
 public:
-    virtual void LoadMesh(const std::string& filename) = 0;
+    virtual void LoadMesh(const std::string&) = 0;
     virtual ~MeshLoader() = default;
 
     void Print_Data();
@@ -28,19 +28,20 @@ public:
     std::vector<Surface>& Get_Surfaces();
 
     // метод, позволяющий найти КЭ по ID трех его вершинных узлов
-    std::vector<Element> Get_Elements_by_ID(int id1, int id2, int id3); // stream??
+    std::vector<Element> Get_Elements_by_ID(int, int, int);
     // метод, позволяющий найти КЭ по ребру
-    std::vector<Element> Get_Elements_by_edge(int id1, int id2); // stream ??
+    std::vector<Element> Get_Elements_by_edge(int, int);
     // метод, возвращающий контейнер поверхностных узлов по ID поверхности
-    std::vector<Node> Get_Vertex_Nodes_by_Surface_ID(int s_id);
+    std::vector<Node> Get_Vertex_Nodes_by_Surface_ID(int);
     // метод, возвращающий контейнер КЭ с заданным ID материала
-    std::vector<Element> Get_Elements_by_Material_ID(int m_id);
+    std::vector<Element> Get_Elements_by_Material_ID(int);
     // метод, возвращающий контейнер поверхностных КЭ с заданным ID поверхности
-    std::vector<Surface> Get_Surfaces_by_Surface_ID(int s_id);
+    std::vector<Surface> Get_Surfaces_by_Surface_ID(int);
     // метод, преобразующий симплексные тетраэдральные КЭ в квадратичные путем внесения новых узлов в загруженную КЭ сетку
-    // ??????????????????
+    void Transform_Elements_to_Quadratic();
     // метод, создающий контейнер, n-ый элемент которого хранит контейнер всех «соседей» для узла n
     std::vector<std::vector<Node>> Get_Nodes_Neighbors();
+    Node Get_Node_by_ID(int);
 };
 
 
