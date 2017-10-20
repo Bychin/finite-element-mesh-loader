@@ -18,6 +18,9 @@ protected:
     std::vector<Surface> surfaces;
 public:
     virtual void LoadMesh(const std::string& filename) = 0;
+    virtual ~MeshLoader() = default;
+
+    void Print_Data();
 
     // методы, позволяющие получить STL-контейнеры узлов, конечных элементов и поверхностных элементов
     std::vector<Node>& Get_Nodes();

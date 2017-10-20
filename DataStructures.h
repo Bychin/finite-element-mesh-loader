@@ -27,7 +27,7 @@ struct Element {
 
 struct Surface : public Element {
     int surface_ID;
-    int type_ID;
+    int border_ID;
 
     Surface() = default;
 };
