@@ -27,23 +27,9 @@ void NeuMeshLoader::LoadMesh(const std::string& filename) {
     }
 
     fin >> amount;
-    // some manipulations to find out dimension
-    auto position = fin.tellg();
-    char c;
-    bool already_found = false;
-    int dimension = 0;
-    fin.get(c); // catch '\n'
-    while (fin.get(c) && c != '\n') {
-        if (c != ' ') {
-            if (!already_found) {
-                ++dimension;
-                already_found = true;
-            };
-        } else
-            already_found = false;
-    }
-    fin.seekg(position, fin.beg);
-    std::cout << dimension << std::endl;//
+    // some manipulations to find out dimension should be added
+    int dimension = 4;
+
     elements.reserve(amount);
     for (int i = 1; i <= amount; ++i) {
         Element temp_element;
@@ -59,21 +45,8 @@ void NeuMeshLoader::LoadMesh(const std::string& filename) {
     }
 
     fin >> amount;
-    // some manipulations to find out dimension
-    position = fin.tellg();
-    already_found = false;
-    dimension = 0;
-    fin.get(c); // catch '\n'
-    while (fin.get(c) && c != '\n') {
-        if (c != ' ') {
-            if (!already_found) {
-                ++dimension;
-                already_found = true;
-            }
-        } else
-            already_found = false;
-    }
-    fin.seekg(position, fin.beg);
+    // some manipulations to find out dimension should be added
+    dimension = 3;
 
     surfaces.reserve(amount);
     for (int i = 1; i <= amount; ++i) {

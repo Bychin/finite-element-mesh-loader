@@ -5,6 +5,7 @@
 #include "MeshLoader.h"
 #include "NeuMeshLoader.h"
 #include "AneuMeshLoader.h"
+#include "Exceptions.h"
 
 #include <iostream>
 #include <string>
@@ -37,8 +38,13 @@ MeshLoader* File_Format_Checker(std::string& file) { // deletes all whitespaces,
         return mesh_pointer;
     }
 
-    else std::cout << "Warning! File-format-checker was not passed!" << std::endl;
-    return nullptr;
+    else {
+        std::cout << "Warning! File-format-checker was not passed!" << std::endl;
+        std::size_t dot = file.rfind('.');
+        if (dot == std::string::npos)
+            throw BadFileFormatException();
+        else throw BadFileFormatException(file.substr(file.rfind('.'), file.size() - file.rfind('.')));
+    };
 }
 
 int main(int argc, char* argv[]) {
@@ -53,10 +59,6 @@ int main(int argc, char* argv[]) {
     };
 
     MeshLoader* loader = File_Format_Checker(filepath);
-    if (loader == nullptr) {
-        std::cout << "Exiting!\n"; // EXCEPTION
-        return 1;
-    };
 
     loader->LoadMesh(filepath);
     loader->Print_Data();
