@@ -22,9 +22,9 @@ std::vector<Surface>& MeshLoader::Get_Surfaces() {
 }
 
 void MeshLoader::Print_Data() {
-    std::cout << nodes << std::endl
-              << elements << std::endl
-              << surfaces << std::endl;
+    std::cout << Get_Nodes() << std::endl
+              << Get_Elements() << std::endl
+              << Get_Surfaces() << std::endl;
 }
 
 std::vector<Element> MeshLoader::Get_Elements_by_ID(int id1, int id2, int id3) {

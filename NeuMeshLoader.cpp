@@ -3,6 +3,7 @@
 //
 
 #include "NeuMeshLoader.h"
+#include "Exceptions.h"
 
 #include <fstream>
 #include <iostream>
@@ -10,8 +11,7 @@
 void NeuMeshLoader::LoadMesh(const std::string& filename) {
     std::ifstream fin(filename);
     if (!fin) {
-        std::cerr << "Cannot open file: \"" << filename << "\"!" << std::endl;
-        exit(EXIT_FAILURE); // try-except?
+        throw NoFileFoundException(filename);
     } else std::cout << "File \"" << filename << "\" was opened successfully." << std::endl;
 
     int amount;

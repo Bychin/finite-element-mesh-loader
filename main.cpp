@@ -10,6 +10,7 @@
 #include <iostream>
 #include <string>
 #include <fstream>
+#include <algorithm>
 
 
 std::string FILEPATH = R"(C:\Users\Bychin\Documents\_Projects\ClionProjects\laboratory_work_1_2\a-neu-files\cube.neu)";
@@ -47,6 +48,13 @@ MeshLoader* File_Format_Checker(std::string& file) { // deletes all whitespaces,
     };
 }
 
+struct fixed_tolower : std::unary_function<char, char> { // as a struct for a better chance of inlining
+    char operator()(char c) const {
+        return tolower((unsigned char)c);
+    }
+};
+
+
 int main(int argc, char* argv[]) {
     std::string filepath = FILEPATH;
     if (argc == 1)
@@ -55,7 +63,9 @@ int main(int argc, char* argv[]) {
         std::cout << "There must be one or none arguments! Set file path to default..." << std::endl;
     else {
         std::cout << "Set file path to \"" << argv[1] << "\"..." << std::endl;
-        filepath = argv[1]; // toLower?
+        std::locale loc;
+        filepath = argv[1];
+        std::transform(filepath.begin(), filepath.end(), filepath.begin(), fixed_tolower()); // .aneu = .ANEU = .AnEu = etc
     };
 
     MeshLoader* loader = File_Format_Checker(filepath);

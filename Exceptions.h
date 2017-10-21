@@ -16,7 +16,7 @@ public:
     BadFileFormatException() {
         error.assign("Unknown or unsupported file format!");
     }
-    explicit BadFileFormatException(std::string file_format) {
+    explicit BadFileFormatException(const std::string& file_format) {
         error.assign("File format \"" + file_format + "\" is not supported!");
     }
     const char* what() const noexcept override {
@@ -24,5 +24,18 @@ public:
     }
 };
 
+class NoFileFoundException : public std::exception {
+    std::string error;
+public:
+    NoFileFoundException() {
+        error.assign("Cannot open file! Probably it does not exist!");
+    }
+    explicit NoFileFoundException(const std::string& file_) {
+        error.assign("Cannot open file: \"" + file_ + "\"! Probably it does not exist!");
+    }
+    const char* what() const noexcept override {
+        return error.c_str();
+    }
+};
 
 #endif //LABORATORY_WORK_1_2_EXCEPTIONS_H
