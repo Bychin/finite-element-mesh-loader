@@ -13,8 +13,8 @@
 #include <algorithm>
 
 
-std::string FILEPATH = R"(C:\Users\Bychin\Documents\_Projects\ClionProjects\laboratory_work_1_2\a-neu-files\cube.neu)";
-//std::string FILEPATH = "./a-neu-files/cube.aneu";
+//std::string FILEPATH = R"(C:\Users\Bychin\Documents\_Projects\ClionProjects\laboratory_work_1_2\a-neu-files\cube.neu)";
+std::string FILEPATH = "../a-neu-files/cube.aneu";
 
 
 MeshLoader* File_Format_Checker(std::string& file) { // deletes all whitespaces, checks correct format
@@ -67,8 +67,8 @@ void Mesh_Loader_Demo(MeshLoader* loader_, const std::string& filepath_) {
     std::cout << elements_vector;
     elements_vector.clear();
 
-    std::cout << "\nResult of Get_Vertex_Nodes_by_Surface_ID(12) function:\n";
-    nodes_vector = loader_->Get_Vertex_Nodes_by_Surface_ID(12);
+    std::cout << "\nResult of Get_Vertex_Nodes_by_Surface_ID(6) function:\n";
+    nodes_vector = loader_->Get_Vertex_Nodes_by_Surface_ID(6);
     std::cout << nodes_vector;
     nodes_vector.clear();
 

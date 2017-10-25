@@ -10,7 +10,7 @@
 #include <vector>
 
 struct Node {
-    int ID;
+    int id;
     double x, y ,z;
     bool vertex;
 
@@ -18,25 +18,39 @@ struct Node {
     Node(int, double, double, double, bool);
 
     bool operator==(const Node&) const;
+    bool operator<(const Node&) const;
     friend std::ostream& operator<<(std::ostream&, const Node&);
     friend std::ostream& operator<<(std::ostream&, const std::vector<Node>&);
 };
 
 struct Element {
-    int element_ID;
-    int material_ID;
-    std::vector<int> nodes_ID;
+    int element_id;
+    int material_id;
+    std::vector<int> nodes_id;
 
     friend std::ostream& operator<<(std::ostream&, const Element&);
     friend std::ostream& operator<<(std::ostream&, const std::vector<Element>&);
 };
 
 struct Surface : public Element {
-    int surface_ID;
-    int border_ID;
+    int surface_id;
+    int border_id;
 
     friend std::ostream& operator<<(std::ostream&, const Surface&);
     friend std::ostream& operator<<(std::ostream&, const std::vector<Surface>&);
+};
+
+struct Edge {
+    int first_node_id;
+    int last_node_id;
+    int center_id;
+
+    Edge() = default;
+    Edge(int, int, int);
+
+    bool operator==(const Edge&) const;
+    bool operator<(const Edge&) const;
+    void UpdateCenter(int);
 };
 
 

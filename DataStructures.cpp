@@ -8,32 +8,32 @@
 
 
 bool Node::operator==(const Node& right_node) const {
-    if (ID == right_node.ID && x == right_node.x && y == right_node.y &&
+    if (id == right_node.id && x == right_node.x && y == right_node.y &&
             z == right_node.z && vertex == right_node.vertex)
         return true;
     else return false;
 };
 
 std::ostream& operator<<(std::ostream& out_stream, const Node& node_) {
-    out_stream << std::setw(4) << node_.ID << " |"
+    out_stream << std::setw(4) << node_.id << " |"
                << std::right << std::setw(11) << node_.x << std::setw(11) << node_.y << std::setw(11) << node_.z
                << " | " << node_.vertex << "\n";
     return out_stream;
 }
 
 std::ostream& operator<<(std::ostream& out_stream, const Element& element_) {
-    out_stream << std::setw(4) << element_.element_ID << " |"
-               << std::setw(11) << element_.material_ID << " |";
-    for (const auto& nodes_ID_it : element_.nodes_ID)
+    out_stream << std::setw(4) << element_.element_id << " |"
+               << std::setw(11) << element_.material_id << " |";
+    for (const auto& nodes_ID_it : element_.nodes_id)
         out_stream << std::right << std::setw(4) << nodes_ID_it;
     out_stream << "\n";
     return out_stream;
 }
 
 std::ostream& operator<<(std::ostream& out_stream, const Surface& surface_) {
-    out_stream << std::setw(9) << surface_.surface_ID << " |"
-               << std::setw(9) << surface_.border_ID << " |";
-    for (const auto& nodes_ID_it : surface_.nodes_ID)
+    out_stream << std::setw(9) << surface_.surface_id << " |"
+               << std::setw(9) << surface_.border_id << " |";
+    for (const auto& nodes_ID_it : surface_.nodes_id)
         out_stream << std::right << std::setw(4) << nodes_ID_it;
     out_stream << "\n";
     return out_stream;
@@ -48,8 +48,11 @@ std::ostream& operator<<(std::ostream& out_stream, const std::vector<Node>& node
 }
 
 Node::Node(int ID_, double x_, double y_, double z_, bool vertex_) :
-    ID(ID_), x(x_), y(y_), z(z_), vertex(vertex_) {}
+    id(ID_), x(x_), y(y_), z(z_), vertex(vertex_) {}
 
+bool Node::operator<(const Node& right_node) const {
+    return id < right_node.id;
+}
 
 
 std::ostream& operator<<(std::ostream& out_stream, const std::vector<Element>& elements_) {
@@ -68,4 +71,23 @@ std::ostream& operator<<(std::ostream& out_stream, const std::vector<Surface>& s
     for (const auto& it : surfaces_)
         out_stream << it;
     return out_stream;
+}
+
+bool Edge::operator==(const Edge& right_edge) const {
+    if (right_edge.first_node_id == first_node_id && right_edge.last_node_id == last_node_id)
+        return true;
+    else if (right_edge.first_node_id == last_node_id && right_edge.last_node_id == first_node_id)
+        return true;
+    else return false;
+}
+
+Edge::Edge(int id1, int id2, int id3) :
+    first_node_id(id1), last_node_id(id2), center_id(id3) {}
+
+void Edge::UpdateCenter(int id_) {
+    center_id = id_;
+}
+
+bool Edge::operator<(const Edge& right_edge) const {
+    return center_id < right_edge.center_id;
 }

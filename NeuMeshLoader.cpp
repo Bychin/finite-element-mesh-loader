@@ -20,7 +20,7 @@ void NeuMeshLoader::LoadMesh(const std::string& filename) {
     nodes.reserve(amount);
     for (int i = 1; i <= amount; ++i) {
         Node temp_node;
-        temp_node.ID = i;
+        temp_node.id = i;
         fin >> temp_node.x >> temp_node.y >> temp_node.z;
         temp_node.vertex = true;
         nodes.push_back(temp_node);
@@ -33,13 +33,13 @@ void NeuMeshLoader::LoadMesh(const std::string& filename) {
     elements.reserve(amount);
     for (int i = 1; i <= amount; ++i) {
         Element temp_element;
-        temp_element.element_ID = i;
-        fin >> temp_element.material_ID;
-        temp_element.nodes_ID.reserve(dimension);
+        temp_element.element_id = i;
+        fin >> temp_element.material_id;
+        temp_element.nodes_id.reserve(dimension);
         int temp_id;
         for (int j = 0; j < dimension; ++j) {
             fin >> temp_id;
-            temp_element.nodes_ID.push_back(temp_id);
+            temp_element.nodes_id.push_back(temp_id);
         }
         elements.push_back(std::move(temp_element));
     }
@@ -51,19 +51,19 @@ void NeuMeshLoader::LoadMesh(const std::string& filename) {
     surfaces.reserve(amount);
     for (int i = 1; i <= amount; ++i) {
         Surface temp_surface;
-        temp_surface.surface_ID = i;
-        fin >> temp_surface.border_ID;
-        temp_surface.nodes_ID.reserve(dimension);
+        temp_surface.surface_id = i;
+        fin >> temp_surface.border_id;
+        temp_surface.nodes_id.reserve(dimension);
         int temp_id;
         for (int j = 0; j < dimension; ++j) {
             fin >> temp_id;
-            temp_surface.nodes_ID.push_back(temp_id);
+            temp_surface.nodes_id.push_back(temp_id);
         }
-        std::vector<Element> temp_elements = Get_Elements_by_ID(temp_surface.nodes_ID[0],
-                                                                temp_surface.nodes_ID[1],
-                                                                temp_surface.nodes_ID[2]);
-        temp_surface.element_ID = temp_elements[0].element_ID;
-        temp_surface.material_ID = temp_elements[0].material_ID;
+        std::vector<Element> temp_elements = Get_Elements_by_ID(temp_surface.nodes_id[0],
+                                                                temp_surface.nodes_id[1],
+                                                                temp_surface.nodes_id[2]);
+        temp_surface.element_id = temp_elements[0].element_id;
+        temp_surface.material_id = temp_elements[0].material_id;
         surfaces.push_back(std::move(temp_surface));
     }
 

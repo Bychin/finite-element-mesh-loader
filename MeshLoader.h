@@ -27,6 +27,7 @@ public:
     std::vector<Element>& Get_Elements();
     std::vector<Surface>& Get_Surfaces();
 
+    // TODO: transfer to AneuMeshLoader.cpp
     // метод, позволяющий найти КЭ по ID трех его вершинных узлов
     std::vector<Element> Get_Elements_by_ID(int, int, int);
     // метод, позволяющий найти КЭ по ребру
